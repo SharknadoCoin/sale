@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@material-ui/core";
 import "./main.scss";
-import CatImg from "../../../../assets/icons/sharkologo.png";
+import CatImg from "../../../../assets/tokens/goldensharko.png";
 
 function Main() {
     return (
