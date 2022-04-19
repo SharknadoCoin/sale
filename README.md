@@ -11,7 +11,7 @@ Required:
 
 ```bash
 git clone https://github.com/sharknadocoin/sharknado-frontend.git
-cd wonderland-frontend
+cd sharknado-frontend
 yarn install
 npm run start
 ```
