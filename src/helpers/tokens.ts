@@ -44,7 +44,7 @@ export const sss: IToken = {
 export const sharko: IToken = {
     name: "SHARKO",
     img: SharkoIcon,
-    address: "0xC3028FbC1742a16A5D69dE1B334cbce28f5d7EB3",
+    address: "0x7E1d65ee360335Fa119EE4B9708e47700EFBFc58",
     decimals: 18,
 };
 
