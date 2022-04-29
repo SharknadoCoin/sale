@@ -11,7 +11,7 @@ export default function Social() {
                 <SvgIcon color="primary" component={GitHub} />
             </Link>
 
-            <Link href="https://twitter.sharknado.io" target="_blank">
+            <Link href="http://twitter.sharknado.io" target="_blank">
                 <SvgIcon color="primary" component={Twitter} />
             </Link>
 
@@ -19,7 +19,7 @@ export default function Social() {
                 <SvgIcon viewBox="0 0 32 32" color="primary" component={Telegram} />
             </Link> */}
 
-            <Link href="https://discord.sharknado.io" target="_blank">
+            <Link href="http://discord.sharknado.io" target="_blank">
                 <SvgIcon color="primary" component={Discord} />
             </Link>
         </div>

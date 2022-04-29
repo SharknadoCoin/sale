@@ -9,8 +9,8 @@ import { Skeleton } from "@material-ui/lab";
 import useTokens, { IAllTokenData } from "../../../../hooks/tokens";
 import { trim } from "../../../../helpers";
 import { IAllBondData } from "../../../../hooks/bonds";
-import { wbnb, bnbSHARKO } from "../../../../helpers/bond";
-import { sharko as sharkoToken, bnb as wbnbToken } from "../../../../helpers/tokens";
+import { /* busd, bnbSHARKO, */ wbnb } from "../../../../helpers/bond";
+import { /* sharko as sharkoToken, */ wbnb as wbnbToken } from "../../../../helpers/tokens"; //TOFIX
 
 interface IChooseTokenProps {
     open: boolean;
@@ -39,9 +39,13 @@ function ChooseToken({ open, handleClose, handleSelect, bond }: IChooseTokenProp
 
         let lpFilter = true;
 
-        if (bond.name === bnbSHARKO.name) {
+        /* if (bond.name === bnbSHARKO.name) {
             lpFilter = sharkoToken.address !== address;
         }
+
+        if (bond.name === wbnb.name) {
+            lpFilter = isAvax ? false : wbnbToken.address !== address;
+        } */
 
         if (bond.name === wbnb.name) {
             lpFilter = isAvax ? false : wbnbToken.address !== address;

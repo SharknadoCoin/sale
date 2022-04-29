@@ -49,10 +49,9 @@ function BondRedeem({ bond }: IBondRedeem) {
     }
 
     const vestingTime = () => {
-        if (!bondDetails) {
-            return "";
-        }
-        return prettyVestingPeriod(currentBlockTime, bondDetails.bondMaturationBlock);
+        /* const timeLeft = (bondingState.vestingTerm - ((bond.interestDue * bond.pendingPayout) / bondingState.vestingTerm)) / 1000000000000000000;
+        return prettyVestingPeriod(timeLeft, bondingState.vestingTerm); */
+        //return prettyVestingPeriod(currentBlockTime, bondingState.vestingTerm);
     };
 
     const vestingPeriod = () => {
@@ -83,18 +82,30 @@ function BondRedeem({ bond }: IBondRedeem) {
 
             <Slide direction="right" in={true} mountOnEnter unmountOnExit {...{ timeout: 533 }}>
                 <Box className="bond-data">
+                    {/* <div className="data-row">
+                        <p className="bond-balance-title">Your Balance</p>
+                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.purchased, 4)} SHARKO`}</p>
+                    </div> */}
                     <div className="data-row">
                         <p className="bond-balance-title">Pending Rewards</p>
-                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue / 1000000000, 4)} TIME`}</p>
+                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue / 1000000000, 4)} SHARKO`}</p>
                     </div>
                     <div className="data-row">
                         <p className="bond-balance-title">Claimable Rewards</p>
-                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout / 1000000000, 4)} TIME`}</p>
+                        <p className="price-data bond-balance-title">
+                            {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.pendingPayout / 1000000000, 4)} SHARKO` + " (" + bond.timeLeft + " %)"}
+                        </p>
                     </div>
-                    <div className="data-row">
+                    {/* <div className="data-row">
+                        <p className="bond-balance-title">Claimed Airdrop</p>
+                        <p className="price-data bond-balance-title">
+                            {isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.interestDue / 1000000000 / bond.ratio, 4)} vSHARKOS`}
+                        </p>
+                    </div> */}
+                    {/* <div className="data-row">
                         <p className="bond-balance-title">Time until fully vested</p>
-                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : vestingTime()}</p>
-                    </div>
+                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : bond.timeLeft + ' %'}</p>
+                    </div> */}
 
                     <div className="data-row">
                         <p className="bond-balance-title">ROI</p>

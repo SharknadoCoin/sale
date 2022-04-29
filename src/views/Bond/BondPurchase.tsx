@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Box, OutlinedInput, InputAdornment, Slide, FormControl } from "@material-ui/core";
+import { Box, OutlinedInput, InputAdornment, Slide, FormControl, Link, Paper } from "@material-ui/core";
 import { shorten, trim, prettifySeconds } from "../../helpers";
 import { changeApproval, bondAsset, calcBondDetails } from "../../store/slices/bond-slice";
 import { useWeb3Context } from "../../hooks";
@@ -22,7 +22,7 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
     const { provider, address, chainID, checkWrongNetwork } = useWeb3Context();
 
     const [quantity, setQuantity] = useState("");
-    const [useAvax, setUseAvax] = useState(false);
+    const [useAvax, setUseAvax] = useState(true);
 
     const isBondLoading = useSelector<IReduxState, boolean>(state => state.bonding.loading ?? true);
     const [zapinOpen, setZapinOpen] = useState(false);
@@ -33,6 +33,10 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
 
     const vestingPeriod = () => {
         return prettifySeconds(bond.vestingTerm, "day");
+    };
+
+    const bondRatio = () => {
+        return bond.ratio + " SHARKO x BNB";
     };
 
     async function onBond() {
@@ -124,7 +128,7 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
     return (
         <Box display="flex" flexDirection="column">
             <Box display="flex" justifyContent="space-around" flexWrap="wrap">
-                {bond.name === "wavax" && (
+                {bond.name === "WBNB" && (
                     <FormControl className="ohm-input" variant="outlined" color="primary" fullWidth>
                         <div className="avax-checkbox">
                             <input type="checkbox" checked={useAvax} onClick={() => setUseAvax(!useAvax)} />
@@ -167,7 +171,7 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
                             await onSeekApproval();
                         }}
                     >
-                        <p>{txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve")}</p>
+                        <p>{txnButtonText(pendingTransactions, "approve_" + bond.name, "Approve WBNB")}</p>
                     </div>
                 )}
                 {/* 
@@ -177,9 +181,7 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
 
                 {!hasAllowance() && !useAvax && (
                     <div className="help-text">
-                        <p className="help-text-desc">
-                            Note: The "Approve" transaction is only needed when minting for the first time; subsequent minting only requires you to perform the "Buy" transaction.
-                        </p>
+                        <p className="help-text-desc">Note: The "Approve" transaction is only needed when wrap BNB to WBNB for the first time.</p>
                     </div>
                 )}
             </Box>
@@ -198,15 +200,20 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
                             )}
                         </p>
                     </div>
-
                     <div className="data-row">
                         <p className="bond-balance-title">You Will Get</p>
                         <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.bondQuote, 4)} SHARKO`}</p>
                     </div>
 
-                    <div className={`data-row`}>
-                        <p className="bond-balance-title">Max You Can Buy</p>
-                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice / 1000000000, 4)} SHARKO`}</p>
+                    <div className="data-row">
+                        <p className="bond-balance-title">
+                            Airdrop (
+                            <Link className="bond-balance-title" href="https://docs.sharknado.io/sharko-token/sharkos/vsharkos-airdrop" target="_blank">
+                                Read more
+                            </Link>
+                            )
+                        </p>
+                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.airdrop, 4)} vSHARKOS`}</p>
                     </div>
 
                     <div className="data-row">
@@ -219,9 +226,18 @@ function BondPurchase({ bond, slippage }: IBondPurchaseProps) {
                         <p className="bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : vestingPeriod()}</p>
                     </div>
 
+                    {/* <div className="data-row">
+                        <p className="bond-balance-title">Sale Ratio</p>
+                        <p className="bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : bondRatio()}</p>
+                    </div> */}
+
                     <div className="data-row">
-                        <p className="bond-balance-title">Minimum purchase</p>
-                        <p className="bond-balance-title">0.01 SHARKO</p>
+                        <p className="bond-balance-title">Min | Max purchase</p>
+                        <p className="bond-balance-title">1500 | 15000000 SHARKO</p>
+                    </div>
+                    <div className={`data-row`}>
+                        <p className="bond-balance-title">Max Token in Sale</p>
+                        <p className="price-data bond-balance-title">{isBondLoading ? <Skeleton width="100px" /> : `${trim(bond.maxBondPrice / 1000000000, 4)} SHARKO`}</p>
                     </div>
                 </Box>
             </Slide>

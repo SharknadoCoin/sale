@@ -50,7 +50,7 @@ function ChooseBond() {
 
                         <Grid item xs={12} sm={6}>
                             <Box textAlign="center">
-                                <p className="choose-bond-view-card-metrics-title">TIME Price</p>
+                                <p className="choose-bond-view-card-metrics-title">SHARKO Price</p>
                                 <p className="choose-bond-view-card-metrics-value">{isAppLoading ? <Skeleton width="100px" /> : `$${trim(marketPrice, 100)}`}</p>
                             </Box>
                         </Grid>
@@ -66,13 +66,13 @@ function ChooseBond() {
                                                 <p className="choose-bond-view-card-table-title">Base</p>
                                             </TableCell>
                                             <TableCell align="center">
-                                                <p className="choose-bond-view-card-table-title">Price</p>
+                                                <p className="choose-bond-view-card-table-title">Price (100k)</p>
                                             </TableCell>
                                             <TableCell align="center">
                                                 <p className="choose-bond-view-card-table-title">ROI</p>
                                             </TableCell>
                                             <TableCell align="right">
-                                                <p className="choose-bond-view-card-table-title">Purchased</p>
+                                                <p className="choose-bond-view-card-table-title">Hard Cap</p>
                                             </TableCell>
                                             <TableCell align="right"></TableCell>
                                         </TableRow>
@@ -88,6 +88,12 @@ function ChooseBond() {
                     )}
                 </div>
             </Zoom>
+
+            <div className="choose-bond-view-card-container">
+                <a href="https://docs.sharknado.io/products/sharknado-vesting-sale" target="_blank">
+                    <p className="bond-name-title">Read our Docs about the Vesting Sale</p>
+                </a>
+            </div>
 
             {isSmallScreen && (
                 <div className="choose-bond-view-card-container">

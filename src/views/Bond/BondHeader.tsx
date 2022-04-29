@@ -7,6 +7,7 @@ import { ReactComponent as SettingsIcon } from "../../assets/icons/settings.svg"
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import { useEscape } from "../../hooks";
 import { IAllBondData } from "../../hooks/bonds";
+import DocsIcon from "../../assets/icons/stake.svg";
 
 interface IBondHeaderProps {
     bond: IAllBondData;
@@ -46,6 +47,9 @@ function BondHeader({ bond, slippage, onSlippageChange }: IBondHeaderProps) {
             </div>
 
             <div className="bond-settings">
+                <Link href="https://sharknadocoin.medium.com/sharko-token-initial-sale-announcement-8ecfd729f245" target="_blank">
+                    <img alt="" src={DocsIcon} />
+                </Link>
                 {/* <IconButton onClick={handleOpen}>
                     <SvgIcon color="primary" component={SettingsIcon} />
                 </IconButton>

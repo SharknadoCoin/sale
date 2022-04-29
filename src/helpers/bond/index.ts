@@ -8,55 +8,39 @@ import WbnbIcon from "../../assets/tokens/BNB.png";
 import SharkoBnbIcon from "../../assets/tokens/SHARKO-BNB.png";
 import SharkoBusdIcon from "../../assets/tokens/SHARKO-BUSD.png";
 
-import { StableBondContract, LpBondContract, customBond, WavaxBondContract, StableReserveContract, LpReserveContract } from "../../abi";
+import { StableBondContract, LpBondContract, customBond, customBondV2, customTreasury, WavaxBondContract, StableReserveContract, LpReserveContract, wbnbBondV2 } from "../../abi";
 
-/* export const busd = new CustomBond({
+export const busd = new StableBond({
     name: "BUSD",
     displayName: "BUSD",
     bondToken: "BUSD",
     bondIconSvg: BusdIcon,
-    bondContractABI: StableBondContract,
-    reserveContractAbi: StableReserveContract,
-    networkAddrs: {C
-        [Networks.BSC]: {
-            bondAddress: "",
-            reserveAddress: "",
-        },
-    },
-    tokensInStrategy: "1000000000000000000000000",
-}); */
-
-export const wbnb = new StableBond({
-    name: "WBNB",
-    displayName: "WBNB",
-    bondToken: "WBNB",
-    bondIconSvg: WbnbIcon,
-    bondContractABI: customBond,
+    bondContractABI: customBondV2,
     reserveContractAbi: StableReserveContract,
     networkAddrs: {
         [Networks.BSC]: {
             bondAddress: "",
-            reserveAddress: "",
+            reserveAddress: "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56",
         },
     },
     tokensInStrategy: "1000000000000000000000000",
 });
 
-/* export const busdSHARKO = new LPBond({
-    name: "BUSD-SHARKO LP",
-    displayName: "BUSD-SHARKO LP",
-    bondToken: "BUSD-SHARKO LP",
-    bondIconSvg: SharkoBusdIcon,
-    bondContractABI: LpBondContract,
-    reserveContractAbi: LpReserveContract,
+export const wbnb = new CustomBond({
+    name: "WBNB",
+    displayName: "BNB",
+    bondToken: "WBNB",
+    bondIconSvg: WbnbIcon,
+    bondContractABI: wbnbBondV2,
+    reserveContractAbi: StableReserveContract,
     networkAddrs: {
         [Networks.BSC]: {
-            bondAddress: "",
-            reserveAddress: "",
+            bondAddress: "0x0C783f23108AA4357e999f4Cc389f84c2DA7A9d0",
+            reserveAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
         },
     },
-    lpUrl: "",
-}); */
+    tokensInStrategy: "1000000000000000000000000",
+});
 
 export const bnbSHARKO = new CustomLPBond({
     name: "BNB-SHARKO LP",
@@ -68,10 +52,10 @@ export const bnbSHARKO = new CustomLPBond({
     networkAddrs: {
         [Networks.BSC]: {
             bondAddress: "",
-            reserveAddress: "",
+            reserveAddress: "0x4FcB4716Bd4784eE72746f89f2425a16f8C76595",
         },
     },
     lpUrl: "",
 });
 
-export default [/* busd, */ wbnb, /* wavax2, */ /* busdSHARKO, */ bnbSHARKO];
+export default [/* busd, */ wbnb /*, bnbSHARKO */];

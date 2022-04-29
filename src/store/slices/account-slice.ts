@@ -30,7 +30,7 @@ export const getBalances = createAsyncThunk("account/getBalances", async ({ addr
 
     const memoContract = new ethers.Contract(addresses.MEMO_ADDRESS, MemoTokenContract, provider);
     const memoBalance = await memoContract.balanceOf(address);
-    const timeContract = new ethers.Contract(addresses.TIME_ADDRESS, TimeTokenContract, provider);
+    const timeContract = new ethers.Contract(addresses.SHARKO_ADDRESS, TimeTokenContract, provider);
     const timeBalance = await timeContract.balanceOf(address);
     const wmemoContract = new ethers.Contract(addresses.WMEMO_ADDRESS, wMemoTokenContract, provider);
     const wmemoBalance = await wmemoContract.balanceOf(address);
@@ -77,8 +77,8 @@ export const loadAccountDetails = createAsyncThunk("account/loadAccountDetails",
 
     const addresses = getAddresses(networkID);
 
-    if (addresses.TIME_ADDRESS) {
-        const timeContract = new ethers.Contract(addresses.TIME_ADDRESS, TimeTokenContract, provider);
+    if (addresses.SHARKO_ADDRESS) {
+        const timeContract = new ethers.Contract(addresses.SHARKO_ADDRESS, TimeTokenContract, provider);
         timeBalance = await timeContract.balanceOf(address);
         stakeAllowance = await timeContract.allowance(address, addresses.STAKING_HELPER_ADDRESS);
     }
@@ -128,6 +128,7 @@ export interface IUserBondDetails {
     interestDue: number;
     bondMaturationBlock: number;
     pendingPayout: number; //Payout formatted in gwei.
+    timeLeft: number;
 }
 
 export const calculateUserBondDetails = createAsyncThunk("account/calculateUserBondDetails", async ({ address, bond, networkID, provider }: ICalcUserBondDetails) => {
@@ -144,6 +145,7 @@ export const calculateUserBondDetails = createAsyncThunk("account/calculateUserB
                 bondMaturationBlock: 0,
                 pendingPayout: "",
                 avaxBalance: 0,
+                timeLeft: 0,
             });
         });
     }
@@ -151,12 +153,13 @@ export const calculateUserBondDetails = createAsyncThunk("account/calculateUserB
     const bondContract = bond.getContractForBond(networkID, provider);
     const reserveContract = bond.getContractForReserve(networkID, provider);
 
-    let interestDue, pendingPayout, bondMaturationBlock;
+    let interestDue, pendingPayout, bondMaturationBlock, timeLeft;
 
     const bondDetails = await bondContract.bondInfo(address);
     interestDue = bondDetails.payout / Math.pow(10, 9);
     bondMaturationBlock = Number(bondDetails.vesting) + Number(bondDetails.lastTime);
     pendingPayout = await bondContract.pendingPayoutFor(address);
+    timeLeft = await bondContract.percentVestedFor(address);
 
     let allowance,
         balance = "0";
@@ -169,6 +172,7 @@ export const calculateUserBondDetails = createAsyncThunk("account/calculateUserB
     const avaxVal = ethers.utils.formatEther(avaxBalance);
 
     const pendingPayoutVal = ethers.utils.formatUnits(pendingPayout, "gwei");
+    const timeLeftVal = timeLeft / 100;
 
     return {
         bond: bond.name,
@@ -181,6 +185,7 @@ export const calculateUserBondDetails = createAsyncThunk("account/calculateUserB
         interestDue,
         bondMaturationBlock,
         pendingPayout: Number(pendingPayoutVal),
+        timeLeft: Number(timeLeftVal),
     };
 });
 

@@ -1,4 +1,4 @@
-import { Box, Modal, Paper, SvgIcon, IconButton, FormControl, OutlinedInput, InputLabel, InputAdornment } from "@material-ui/core";
+import { Box, Modal, Paper, SvgIcon, IconButton, FormControl, OutlinedInput, InputLabel, InputAdornment, Link } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { ReactComponent as XIcon } from "../../assets/icons/x.svg";
 import "./bondSettings.scss";
@@ -30,26 +30,25 @@ function AdvancedSettings({ open, handleClose, slippage, onSlippageChange }: IAd
                     </IconButton>
                 </div>
 
-                <p className="hades-title">Settings</p>
+                <p className="hades-title">SHARKO Sale</p>
 
                 <Box className="card-content">
-                    <InputLabel htmlFor="slippage">
-                        <p className="input-lable">Slippage</p>
-                    </InputLabel>
+                    <p className="input-lable">Documentation:</p>
+                    <p className="input-sublable">
+                        <Link href="#">- Tokenomics</Link>
+                    </p>
+                    <p className="input-sublable">
+                        <Link href="#">- Vesting Sale</Link>
+                    </p>
+                    <p className="input-sublable">
+                        <Link href="#">- Scholarship</Link>
+                    </p>
+                    <p className="input-sublable">
+                        <Link href="#">- vSHARKOS Airdrop</Link>
+                    </p>
+
                     <FormControl variant="outlined" color="primary" fullWidth>
-                        <OutlinedInput
-                            id="slippage"
-                            value={value}
-                            onChange={(e: any) => setValue(e.target.value)}
-                            fullWidth
-                            type="number"
-                            className="bond-input"
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <p className="percent">%</p>
-                                </InputAdornment>
-                            }
-                        />
+                        <p className="input-lable">Disclaimer</p>
                         <div className="help-text">
                             <p className="text-bond-desc">Transaction may revert if price changes by more than slippage %</p>
                         </div>

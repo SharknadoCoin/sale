@@ -114,15 +114,15 @@ export const calcBondDetailsZap = createAsyncThunk("bonding/calcBondDetails", as
 
     let marketPrice = await getMarketPrice(networkID, provider);
 
-    const mimPrice = getTokenPrice("BUSD");
-    marketPrice = (marketPrice / Math.pow(10, 9)) * mimPrice;
+    const busdPrice = getTokenPrice("WBNB");
+    marketPrice = (marketPrice / Math.pow(10, 9)) * busdPrice;
 
     try {
         bondPrice = await bondContract.bondPriceInUSD();
 
         if (bond.name === exampleBond.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            bondPrice = bondPrice * avaxPrice;
+            const bnbPrice = getTokenPrice("WBNB");
+            bondPrice = bondPrice * bnbPrice;
         }
 
         bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice;
@@ -165,8 +165,8 @@ export const calcBondDetailsZap = createAsyncThunk("bonding/calcBondDetails", as
         purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
 
         if (bond.name === exampleBond.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            purchased = purchased * avaxPrice;
+            const bnbPrice = getTokenPrice("WBNB");
+            purchased = purchased * bnbPrice;
         }
     } else {
         if (bond.tokensInStrategy) {
@@ -175,8 +175,8 @@ export const calcBondDetailsZap = createAsyncThunk("bonding/calcBondDetails", as
         purchased = purchased / Math.pow(10, 18);
 
         if (bond.name === wbnb.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            purchased = purchased * avaxPrice;
+            const bnbPrice = getTokenPrice("WBNB");
+            purchased = purchased * bnbPrice;
         }
     }
 

@@ -10,13 +10,14 @@ import { Bond } from "../../helpers/bond/bond";
 import { Networks } from "../../constants/blockchain";
 import { getBondCalculator } from "../../helpers/bond-calculator";
 import { RootState } from "../store";
-import { bnbSHARKO, wbnb } from "../../helpers/bond";
+import { /* bnbSHARKO, */ wbnb /* busd */ } from "../../helpers/bond";
 import { error, warning, success, info } from "../slices/messages-slice";
 import { messages } from "../../constants/messages";
 import { getGasPrice } from "../../helpers/get-gas-price";
 import { metamaskErrorWrap } from "../../helpers/metamask-error-wrap";
 import { sleep } from "../../helpers";
 import { BigNumber } from "ethers";
+import { isAddress } from "ethers/lib/utils";
 
 interface IChangeApproval {
     bond: Bond;
@@ -86,10 +87,12 @@ export interface IBondDetails {
     bondQuote: number;
     purchased: number;
     vestingTerm: number;
+    ratio: number;
     maxBondPrice: number;
     bondPrice: number;
     marketPrice: number;
     maxBondPriceToken: number;
+    airdrop: number;
 }
 
 export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async ({ bond, value, provider, networkID }: ICalcBondDetails, { dispatch }) => {
@@ -102,7 +105,8 @@ export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async
     let bondPrice = 0,
         bondDiscount = 0,
         valuation = 0,
-        bondQuote = 0;
+        bondQuote = 0,
+        airdrop = 0;
 
     const addresses = getAddresses(networkID);
 
@@ -112,20 +116,16 @@ export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async
     const terms = await bondContract.terms();
     const maxBondPrice = (await bondContract.maxPayout()) / Math.pow(10, 9);
 
-    let marketPrice = await getMarketPrice(networkID, provider);
-
-    const mimPrice = getTokenPrice("BUSD");
-    marketPrice = (marketPrice / Math.pow(10, 9)) * mimPrice;
+    let marketPrice = 1 / terms.ratio; //await getMarketPrice(networkID, provider) * terms.ratio;
 
     try {
         bondPrice = await bondContract.bondPriceInUSD();
 
-        if (bond.name === bnbSHARKO.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            bondPrice = bondPrice * avaxPrice;
+        if (bond.name === wbnb.name) {
+            const bnbPrice = getTokenPrice("WBNB");
+            bondPrice = (await getMarketPrice(networkID, provider)) * Math.pow(10, 18); // wbnb/sharko ratio in LP pool
         }
-
-        bondDiscount = (marketPrice * Math.pow(10, 18) - bondPrice) / bondPrice;
+        bondDiscount = (bondPrice / Math.pow(10, 18) - marketPrice) / marketPrice;
     } catch (e) {
         console.log("error getting bondPriceInUSD", e);
     }
@@ -153,6 +153,13 @@ export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async
         dispatch(error({ text: messages.try_mint_more(maxBondPrice.toFixed(2).toString()) }));
     }
 
+    const isAirdrop = bondQuote / terms.airdropRatio;
+    if (isAirdrop >= 1) {
+        airdrop = bondQuote / terms.airdropRatio;
+    } else {
+        airdrop = 0;
+    }
+
     // Calculate bonds purchased
     const token = bond.getContractForReserve(networkID, provider);
     let purchased = await token.balanceOf(addresses.TREASURY_ADDRESS);
@@ -164,19 +171,18 @@ export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async
         purchased = await bondCalcContract.valuation(assetAddress, purchased);
         purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
 
-        if (bond.name === bnbSHARKO.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            purchased = purchased * avaxPrice;
+        if (bond.name === wbnb.name) {
+            const bnbPrice = getTokenPrice("WBNB");
+            purchased = purchased * bnbPrice;
         }
     } else {
-        if (bond.tokensInStrategy) {
+        /* if (bond.tokensInStrategy) {
             purchased = BigNumber.from(purchased).add(BigNumber.from(bond.tokensInStrategy)).toString();
-        }
+        } */
         purchased = purchased / Math.pow(10, 18);
 
         if (bond.name === wbnb.name) {
-            const avaxPrice = getTokenPrice("BNB");
-            purchased = purchased * avaxPrice;
+            purchased = purchased;
         }
     }
 
@@ -186,10 +192,12 @@ export const calcBondDetails = createAsyncThunk("bonding/calcBondDetails", async
         bondQuote,
         purchased,
         vestingTerm: Number(terms.vestingTerm),
+        ratio: Number(terms.ratio),
         maxBondPrice,
         bondPrice: bondPrice / Math.pow(10, 18),
         marketPrice,
         maxBondPriceToken,
+        airdrop,
     };
 });
 

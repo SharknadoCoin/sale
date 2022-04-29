@@ -44,7 +44,7 @@ export function BondDataCard({ bond }: IBondProps) {
                     <p className="bond-name-title">{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</p>
                 </div>
 
-                <div className="data-row">
+                {/* <div className="data-row">
                     <p className="bond-name-title">Purchased</p>
                     <p className="bond-name-title">
                         {isBondLoading ? (
@@ -58,7 +58,7 @@ export function BondDataCard({ bond }: IBondProps) {
                             }).format(bond.purchased)
                         )}
                     </p>
-                </div>
+                </div> */}
                 <Link component={NavLink} to={`/sale/${bond.name}`}>
                     <div className="bond-table-btn">
                         <p>Buy {bond.displayName}</p>
@@ -88,7 +88,7 @@ export function BondTableData({ bond }: IBondProps) {
             <TableCell align="center">
                 <p className="bond-name-title">
                     <>
-                        <span className="currency-icon">{priceUnits(bond)}</span> {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice, 2)}
+                        <span className="currency-icon">{priceUnits(bond)}</span> {isBondLoading ? <Skeleton width="50px" /> : trim(bond.bondPrice * 100000, 8)}
                     </>
                 </p>
             </TableCell>
@@ -96,6 +96,9 @@ export function BondTableData({ bond }: IBondProps) {
                 <p className="bond-name-title">{isBondLoading ? <Skeleton width="50px" /> : `${trim(bond.bondDiscount * 100, 2)}%`}</p>
             </TableCell>
             <TableCell align="right">
+                <p className="bond-name-title">{isBondLoading ? <Skeleton width="50px" /> : `1000 BNB`}</p>
+            </TableCell>
+            {/* <TableCell align="right">
                 <p className="bond-name-title">
                     {isBondLoading ? (
                         <Skeleton width="50px" />
@@ -108,7 +111,7 @@ export function BondTableData({ bond }: IBondProps) {
                         }).format(bond.purchased)
                     )}
                 </p>
-            </TableCell>
+            </TableCell> */}
             <TableCell>
                 <Link component={NavLink} to={`/sale/${bond.name}`}>
                     <div className="bond-table-btn">

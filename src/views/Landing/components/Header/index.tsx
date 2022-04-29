@@ -30,7 +30,7 @@ function Header() {
                                         <SvgIcon color="primary" component={GitHub} />
                                         <p>GitHub</p>
                                     </Link>
-                                    <Link className="tooltip-item" href="https://twitter.sharknado.io" target="_blank">
+                                    <Link className="tooltip-item" href="http://twitter.sharknado.io" target="_blank">
                                         <SvgIcon color="primary" component={Twitter} />
                                         <p>Twitter</p>
                                     </Link>
@@ -38,7 +38,7 @@ function Header() {
                                         <SvgIcon viewBox="0 0 32 32" color="primary" component={Telegram} />
                                         <p>Telegram</p>
                                     </Link> */}
-                                    <Link className="tooltip-item" href="https://discord.sharknado.io" target="_blank">
+                                    <Link className="tooltip-item" href="http://discord.sharknado.io" target="_blank">
                                         <SvgIcon color="primary" component={Discord} />
                                         <p>Discord</p>
                                     </Link>

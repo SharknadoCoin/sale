@@ -127,16 +127,16 @@ function App() {
                 </Route> */}
 
                 <Route exact path="/">
-                    <Redirect to="/landing" />
+                    <Redirect to="/sale" />
                 </Route>
 
                 {/* <Route path="/stake">
                     <Stake />
                 </Route> */}
 
-                <Route path="/landing">
+                {/* <Route path="/landing">
                     <Landing />
-                </Route>
+                </Route> */}
 
                 <Route path="/sale">
                     {bonds.map(bond => {
