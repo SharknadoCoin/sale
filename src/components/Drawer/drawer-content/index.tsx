@@ -75,7 +75,7 @@ function NavContent() {
                                     <Skeleton variant="text" width={"150px"} />
                                 ) : (
                                     <p>
-                                        100k SHARKO = <span className="bond-pair-roi">{trim(bond.bondPrice * 100000, 4)} BNB</span>
+                                        100k SHARKO = <span className="bond-pair-roi">{trim(bond.bondPrice * 100000, 3)} BNB</span>
                                     </p>
                                 )}
                             </Link>
@@ -92,7 +92,7 @@ function NavContent() {
                                     <Skeleton variant="text" width={"150px"} />
                                 ) : (
                                     <p>
-                                        100k SHARKO = <span className="bond-pair-roi">{trim(1, 4)} BNB</span>
+                                        150k SHARKO = <span className="bond-pair-roi">{trim(1, 3)} BNB</span>
                                     </p>
                                 )}
                             </Link>

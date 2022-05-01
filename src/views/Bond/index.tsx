@@ -69,7 +69,7 @@ function Bond({ bond }: IBondProps) {
                                     <p className="bond-price-data-title">Sale Price</p>
                                     <p className="help-text-note">Price for 100'000 SHARKO in Sale pool</p>
                                     <p className="bond-price-data-value">{isBondLoading ? <Skeleton /> : `${trim(bond.marketPrice * 100000, 8)} BNB`}</p>
-                                    <p className="help-text-note">{isBondLoading ? <Skeleton /> : `1 BNB = ${trim(1 / bond.marketPrice + 0.0000000001, 2)} SHARKO`}</p>
+                                    <p className="help-text-note">{isBondLoading ? <Skeleton /> : `1 BNB = ${trim(150000, 2)} SHARKO`}</p>
                                 </div>
                             </Box>
 

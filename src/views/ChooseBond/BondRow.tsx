@@ -98,6 +98,9 @@ export function BondTableData({ bond }: IBondProps) {
             <TableCell align="right">
                 <p className="bond-name-title">{isBondLoading ? <Skeleton width="50px" /> : `1000 BNB`}</p>
             </TableCell>
+            <TableCell align="right">
+                <p className="bond-name-title">{isBondLoading ? <Skeleton width="50px" /> : `90 Days`}</p>
+            </TableCell>
             {/* <TableCell align="right">
                 <p className="bond-name-title">
                     {isBondLoading ? (

@@ -74,6 +74,9 @@ function ChooseBond() {
                                             <TableCell align="right">
                                                 <p className="choose-bond-view-card-table-title">Hard Cap</p>
                                             </TableCell>
+                                            <TableCell align="right">
+                                                <p className="choose-bond-view-card-table-title">Vesting Time</p>
+                                            </TableCell>
                                             <TableCell align="right"></TableCell>
                                         </TableRow>
                                     </TableHead>
